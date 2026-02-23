@@ -55,6 +55,13 @@ if(sessionStorage.getItem("br_auth")==="1"){document.getElementById("pin-gate").
 <div id="root" style="max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+var fb=firebase.initializeApp({apiKey:"AIzaSyCBw6pOXHCKGKAqJnqQ__J_hFfSQfdIjoU",authDomain:"personal-apps-c11ac.firebaseapp.com",projectId:"personal-apps-c11ac",storageBucket:"personal-apps-c11ac.firebasestorage.app",messagingSenderId:"627331801263",appId:"1:627331801263:web:96b0fdd0db0a7415db745a"});
+var db=firebase.firestore();
+var docRef=db.collection("mcheyne").doc("reading-state");
+</script>
 <script>
 function bootApp(){
 // === M'CHEYNE PLAN DATA ===
@@ -73,7 +80,9 @@ function gp(i){return[READINGS[i*2],READINGS[i*2+1]]}
 function td(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function ds(){return{position:DEFAULT_POS,checks:{},log:{}}}
 function load(){try{const s=localStorage.getItem(SK);return s?{...ds(),...JSON.parse(s)}:ds()}catch(e){return ds()}}
-function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){}}
+function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){} try{docRef.set({state:JSON.stringify(s),ts:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
+var _syncCb=null;
+function startSync(){docRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.state){var remote=JSON.parse(d.state);try{localStorage.setItem(SK,d.state)}catch(e){}if(_syncCb)_syncCb(remote)}}})}
 
 // === SVG check icon ===
 const Check=()=>h("svg",{width:12,height:10,viewBox:"0 0 12 10",fill:"none"},h("path",{d:"M1 5L4.5 8.5L11 1",stroke:"#fff",strokeWidth:2.5,strokeLinecap:"round",strokeLinejoin:"round"}));
@@ -110,9 +119,12 @@ function App(){
   const[state,setState]=React.useState(load);
   const[view,setView]=React.useState("read");
   const[browseIdx,setBrowseIdx]=React.useState(null);
+  const _saving=React.useRef(false);
+  React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return{...ds(),...remote}})}};startSync();return function(){_syncCb=null}},[]);
   const pos=state.position,pct=Math.round(pos/PAIRS*100);
 
   function toggle(pi,si){
+    _saving.current=true;
     setState(prev=>{
       const k=String(pi),cur=prev.checks[k]||[];
       const next=cur.includes(si)?cur.filter(x=>x!==si):[...cur,si];
@@ -120,7 +132,7 @@ function App(){
       const nl={...prev.log};nl[today]=(nl[today]||0)+delta;if(nl[today]<=0)delete nl[today];
       const nc={...prev.checks,[k]:next};if(next.length===0)delete nc[k];
       let np=prev.position;while(np<PAIRS&&(nc[String(np)]||[]).length===2)np++;
-      const s={...prev,checks:nc,log:nl,position:np};save(s);return s;
+      const s={...prev,checks:nc,log:nl,position:np};save(s);setTimeout(function(){_saving.current=false},1000);return s;
     });
   }
 
@@ -198,7 +210,7 @@ function App(){
           h("div",{style:{fontSize:48,marginBottom:16}},"🎉"),
           h("div",{style:{fontFamily:"'Newsreader',serif",fontSize:24,fontWeight:700,color:"#3C2415",marginBottom:8}},"Plan Complete!"),
           h("div",{style:{fontSize:14,color:"#6b5744",fontFamily:"'Newsreader',serif"}},"You've read through the entire M'Cheyne plan."),
-          h("button",{onClick:()=>{const s={...ds(),position:0};setState(s);save(s)},style:{marginTop:20,padding:"12px 24px",borderRadius:10,border:"none",background:"#8B4513",color:"#fff",cursor:"pointer",fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600}},"Start Over")
+          h("button",{onClick:()=>{const s={...ds(),position:0};_saving.current=true;setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)},style:{marginTop:20,padding:"12px 24px",borderRadius:10,border:"none",background:"#8B4513",color:"#fff",cursor:"pointer",fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600}},"Start Over")
         )
       ),
       view==="browse"&&h(BrowseView),
@@ -239,10 +251,10 @@ function App(){
         h("div",{style:{background:"#fff",borderRadius:14,padding:"18px 16px",border:"1px solid #e8e0d4"}},
           h("div",{style:{fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600,color:"#3C2415",marginBottom:8}},"Adjust Position"),
           h("div",{style:{fontSize:12,color:"#6b5744",marginBottom:12,fontFamily:"'Newsreader',serif"}},"Currently at reading "+(pos+1)+(pos<PAIRS?": "+gp(pos).join(" + "):" — Complete!")),
-          h("button",{onClick:()=>{const input=prompt("Jump to which reading? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){const s={...state,position:n-1};setState(s);save(s)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #ddd4c6",background:"transparent",cursor:"pointer",color:"#8B4513",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Reading...")
+          h("button",{onClick:()=>{const input=prompt("Jump to which reading? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){_saving.current=true;const s={...state,position:n-1};setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #ddd4c6",background:"transparent",cursor:"pointer",color:"#8B4513",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Reading...")
         ),
         // Reset
-        h("button",{onClick:()=>{if(confirm("Reset all reading data? This cannot be undone.")){const s=ds();setState(s);save(s)}},style:{padding:12,borderRadius:10,border:"1px solid #e0d6ca",background:"transparent",cursor:"pointer",color:"#a09585",fontSize:13,fontFamily:"'Newsreader',serif"}},"Reset All Data")
+        h("button",{onClick:()=>{if(confirm("Reset all reading data? This cannot be undone.")){_saving.current=true;const s=ds();setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}},style:{padding:12,borderRadius:10,border:"1px solid #e0d6ca",background:"transparent",cursor:"pointer",color:"#a09585",fontSize:13,fontFamily:"'Newsreader',serif"}},"Reset All Data")
       )
     )
   )
