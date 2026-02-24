@@ -79,7 +79,15 @@ function cat(r){const b=r.replace(/\s+\d.*/,"");return b==="Ps"?"Psalms":GO.has(
 function gp(i){return[READINGS[i*2],READINGS[i*2+1]]}
 function td(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function ds(){return{position:DEFAULT_POS,checks:{},log:{}}}
-function load(){try{const s=localStorage.getItem(SK);return s?{...ds(),...JSON.parse(s)}:ds()}catch(e){return ds()}}
+function migrateInitialProgress(s){
+  if(s._migrated)return s;
+  var c={...s.checks};
+  for(var i=0;i<DEFAULT_POS;i++){if(!c[String(i)])c[String(i)]=[0,1]}
+  if(!c[String(DEFAULT_POS)])c[String(DEFAULT_POS)]=[0];
+  var np=DEFAULT_POS;while(np<PAIRS&&(c[String(np)]||[]).length===2)np++;
+  return{...s,checks:c,position:np,_migrated:true};
+}
+function load(){try{const s=localStorage.getItem(SK);var st=s?{...ds(),...JSON.parse(s)}:ds();return migrateInitialProgress(st)}catch(e){return migrateInitialProgress(ds())}}
 function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){} try{docRef.set({state:JSON.stringify(s),ts:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
 var _syncCb=null;
 function startSync(){docRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.state){var remote=JSON.parse(d.state);try{localStorage.setItem(SK,d.state)}catch(e){}if(_syncCb)_syncCb(remote)}}})}
