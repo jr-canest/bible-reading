@@ -95,7 +95,7 @@ function PairCard({pairIdx,label,isCurrent,state,toggle}){
     h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
       h("div",null,
         label&&h("div",{style:{fontSize:11,fontFamily:"'Newsreader',serif",color:"#8B4513",letterSpacing:"0.1em",textTransform:"uppercase",fontWeight:600}},label),
-        h("div",{style:{fontSize:13,color:"#6b5744",fontFamily:"'Newsreader',serif"}},"Reading "+(pairIdx+1)+" of "+PAIRS)
+        h("div",{style:{fontSize:13,color:"#6b5744",fontFamily:"'Newsreader',serif"}},"Pair "+(pairIdx+1)+" of "+PAIRS)
       ),
       h("div",{style:{width:36,height:36,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,fontFamily:"'Newsreader',serif",background:complete?"#8B4513":checks.length>0?"#d4a574":"#ece4d8",color:checks.length>0?"#fff":"#9b8b7a",transition:"all 0.3s ease"}},complete?"✓":checks.length+"/2")
     ),
@@ -121,7 +121,9 @@ function App(){
   const[browseIdx,setBrowseIdx]=React.useState(null);
   const _saving=React.useRef(false);
   React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return{...ds(),...remote}})}};startSync();return function(){_syncCb=null}},[]);
-  const pos=state.position,pct=Math.round(pos/PAIRS*100);
+  const pos=state.position;
+  const totalChecked=Object.values(state.checks).reduce((sum,arr)=>sum+arr.length,0);
+  const pct=Math.round(totalChecked/TOTAL*100);
 
   function toggle(pi,si){
     _saving.current=true;
@@ -188,7 +190,7 @@ function App(){
         h("div",{style:{width:pct+"%",height:"100%",background:"linear-gradient(90deg, #d4a574, #8B4513)",borderRadius:100,transition:"width 0.5s ease"}})
       ),
       h("div",{style:{display:"flex",justifyContent:"space-between",marginTop:6,fontSize:11,color:"#a09585"}},
-        h("span",null,pos+" of "+PAIRS+" readings"),h("span",null,pct+"%")
+        h("span",null,totalChecked+" of "+TOTAL+" readings"),h("span",null,pct+"%")
       )
     ),
     // Tabs
@@ -223,7 +225,7 @@ function App(){
       view==="browse"&&h(BrowseView),
       view==="stats"&&h("div",{style:{display:"flex",flexDirection:"column",gap:16}},
         h("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
-          [[pos,"readings done","📖"],[PAIRS-pos,"remaining","📋"],[stats.currentStreak,"day streak","🔥"],[stats.longestStreak,"best streak","⭐"]].map(([val,label,icon],i)=>
+          [[totalChecked,"readings done","📖"],[TOTAL-totalChecked,"remaining","📋"],[stats.currentStreak,"day streak","🔥"],[stats.longestStreak,"best streak","⭐"]].map(([val,label,icon],i)=>
             h("div",{key:i,style:{background:"#fff",borderRadius:14,padding:"18px 16px",border:"1px solid #e8e0d4",textAlign:"center"}},
               h("div",{style:{fontSize:20,marginBottom:4}},icon),
               h("div",{style:{fontSize:28,fontFamily:"'Newsreader',serif",fontWeight:700,color:"#3C2415"}},typeof val==="number"?val.toLocaleString():val),
@@ -257,8 +259,8 @@ function App(){
         // Jump
         h("div",{style:{background:"#fff",borderRadius:14,padding:"18px 16px",border:"1px solid #e8e0d4"}},
           h("div",{style:{fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600,color:"#3C2415",marginBottom:8}},"Adjust Position"),
-          h("div",{style:{fontSize:12,color:"#6b5744",marginBottom:12,fontFamily:"'Newsreader',serif"}},"Currently at reading "+(pos+1)+(pos<PAIRS?": "+gp(pos).join(" + "):" — Complete!")),
-          h("button",{onClick:()=>{const input=prompt("Jump to which reading? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){_saving.current=true;const s={...state,position:n-1};setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #ddd4c6",background:"transparent",cursor:"pointer",color:"#8B4513",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Reading...")
+          h("div",{style:{fontSize:12,color:"#6b5744",marginBottom:12,fontFamily:"'Newsreader',serif"}},"Currently at pair "+(pos+1)+(pos<PAIRS?": "+gp(pos).join(" + "):" — Complete!")),
+          h("button",{onClick:()=>{const input=prompt("Jump to which pair? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){_saving.current=true;const s={...state,position:n-1};setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #ddd4c6",background:"transparent",cursor:"pointer",color:"#8B4513",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Pair...")
         ),
         // Reset
         h("button",{onClick:()=>{if(confirm("Reset all reading data? This cannot be undone.")){_saving.current=true;const s=ds();setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}},style:{padding:12,borderRadius:10,border:"1px solid #e0d6ca",background:"transparent",cursor:"pointer",color:"#a09585",fontSize:13,fontFamily:"'Newsreader',serif"}},"Reset All Data")
