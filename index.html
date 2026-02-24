@@ -87,7 +87,7 @@ function migrateInitialProgress(s){
   var np=DEFAULT_POS;while(np<PAIRS&&(c[String(np)]||[]).length===2)np++;
   return{...s,checks:c,position:np,_migrated:true};
 }
-function load(){try{const s=localStorage.getItem(SK);var st=s?{...ds(),...JSON.parse(s)}:ds();return migrateInitialProgress(st)}catch(e){return migrateInitialProgress(ds())}}
+function load(){try{const s=localStorage.getItem(SK);var st=s?{...ds(),...JSON.parse(s)}:ds();st=migrateInitialProgress(st);save(st);return st}catch(e){var d=migrateInitialProgress(ds());save(d);return d}}
 function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){} try{docRef.set({state:JSON.stringify(s),ts:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
 var _syncCb=null;
 function startSync(){docRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.state){var remote=JSON.parse(d.state);try{localStorage.setItem(SK,d.state)}catch(e){}if(_syncCb)_syncCb(remote)}}})}
@@ -128,7 +128,7 @@ function App(){
   const[view,setView]=React.useState("read");
   const[browseIdx,setBrowseIdx]=React.useState(null);
   const _saving=React.useRef(false);
-  React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return{...ds(),...remote}})}};startSync();return function(){_syncCb=null}},[]);
+  React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return migrateInitialProgress({...ds(),...remote})})}};startSync();return function(){_syncCb=null}},[]);
   const pos=state.position;
   const totalChecked=Object.values(state.checks).reduce((sum,arr)=>sum+arr.length,0);
   const pct=Math.round(totalChecked/TOTAL*100);
