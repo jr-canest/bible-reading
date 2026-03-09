@@ -96,7 +96,7 @@ const WI=new Set(["Job","Prov","Eccl","Song"]);
 function cat(r){const b=r.replace(/\s+\d.*/,"");return b==="Ps"?"Psalms":GO.has(b)?"Gospels":b==="Acts"?"Acts":NT.has(b)?"Epistles":PR.has(b)?"Prophets":WI.has(b)?"Wisdom":"History"}
 function gp(i){return[READINGS[i*2],READINGS[i*2+1]]}
 function td(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function ds(){return{position:(username==="jorge"?DEFAULT_POS:0),checks:{},log:{}}}
+function ds(){return{position:(username==="jorge"?DEFAULT_POS:0),checks:{},log:{},checkDates:{}}}
 function migrateInitialProgress(s){
   if(username!=="jorge"||s._migrated)return s;
   var c={...s.checks};
@@ -341,8 +341,9 @@ function App(){
       const today=td(),delta=next.length-cur.length;
       const nl={...prev.log};nl[today]=(nl[today]||0)+delta;if(nl[today]<=0)delete nl[today];
       const nc={...prev.checks,[k]:next};if(next.length===0)delete nc[k];
+      const cd={...(prev.checkDates||{})};const dk=pi+":"+si;if(next.includes(si)){cd[dk]=today}else{delete cd[dk]}
       let np=prev.position;while(np<PAIRS&&(nc[String(np)]||[]).length===2)np++;
-      const s={...prev,checks:nc,log:nl,position:np};save(s);setTimeout(function(){_saving.current=false},1000);return s;
+      const s={...prev,checks:nc,log:nl,checkDates:cd,position:np};save(s);setTimeout(function(){_saving.current=false},1000);return s;
     });
   }
 
