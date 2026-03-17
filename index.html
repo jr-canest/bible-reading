@@ -152,9 +152,9 @@ var MEM_SEED=[
 var MEM_SK="mcheyne-memory:"+username;
 var memDocRef=db.collection("mcheyne-memory").doc(username);
 var _memSyncCb=null;
-function memSaveData(verses){var json=JSON.stringify(verses);try{localStorage.setItem(MEM_SK,json)}catch(e){}try{memDocRef.set({verses:json,ts:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
+function memSaveData(verses){var json=JSON.stringify(verses);try{localStorage.setItem(MEM_SK,json);localStorage.setItem(MEM_SK+":ts",String(Date.now()))}catch(e){}try{memDocRef.set({verses:json,ts:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
 function memLoadData(){try{var s=localStorage.getItem(MEM_SK);if(s){var p=JSON.parse(s);if(p.length)return p}}catch(e){}return null}
-function startMemSync(){memDocRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.verses){try{localStorage.setItem(MEM_SK,d.verses)}catch(e){}if(_memSyncCb)_memSyncCb(JSON.parse(d.verses))}}})}
+function startMemSync(){memDocRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.verses){var remote=JSON.parse(d.verses);var remoteTs=d.ts?d.ts.toMillis():0;var localTs=parseInt(localStorage.getItem(MEM_SK+":ts")||"0");if(remoteTs>=localTs){try{localStorage.setItem(MEM_SK,d.verses);localStorage.setItem(MEM_SK+":ts",String(remoteTs))}catch(e){}if(_memSyncCb)_memSyncCb(remote)}}}})}
 
 // === MEMORY VIEW COMPONENT ===
 function MemoryView(){
