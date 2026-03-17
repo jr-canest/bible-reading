@@ -175,7 +175,7 @@ function MemoryView(){
 
   React.useEffect(function(){
     var local=memLoadData();
-    if(local){setMVerses(local)}else{setMVerses(MEM_SEED);memSaveData(MEM_SEED)}
+    if(local){setMVerses(local)}else{setMVerses(MEM_SEED)}
     _memSyncCb=function(remote){if(!memSaving.current)setMVerses(remote)};
     startMemSync();
     return function(){_memSyncCb=null};
