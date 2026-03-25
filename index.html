@@ -128,7 +128,7 @@ function mergeStates(a,b){
   return{position:np,checks:mc,log:ml,checkDates:md,_migrated:a._migrated||b._migrated};
 }
 var _syncCb=null;
-function startSync(){docRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.state){var remote={...ds(),...JSON.parse(d.state)};remote=migrateInitialProgress(remote);try{var local=localStorage.getItem(SK);local=local?{...ds(),...JSON.parse(local)}:ds();var merged=mergeStates(local,remote);localStorage.setItem(SK,JSON.stringify(merged));save(merged);if(_syncCb)_syncCb(merged)}catch(e){if(_syncCb)_syncCb(remote)}}}})}
+function startSync(){docRef.onSnapshot(function(snap){if(snap.exists){var d=snap.data();if(d&&d.state){var remote={...ds(),...JSON.parse(d.state)};remote=migrateInitialProgress(remote);if(_syncCb)_syncCb(remote)}}})}
 
 // === SVG check icon ===
 const Check=()=>h("svg",{width:12,height:10,viewBox:"0 0 12 10",fill:"none"},h("path",{d:"M1 5L4.5 8.5L11 1",stroke:"#fff",strokeWidth:2.5,strokeLinecap:"round",strokeLinejoin:"round"}));
@@ -352,7 +352,7 @@ function App(){
   const[slideDir,setSlideDir]=React.useState(null);
   const _saving=React.useRef(false);
   const _slideTimer=React.useRef(null);
-  React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return migrateInitialProgress({...ds(),...remote})})}};startSync();return function(){_syncCb=null}},[]);
+  React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){var merged=mergeStates(prev,migrateInitialProgress({...ds(),...remote}));localStorage.setItem(SK,JSON.stringify(merged));return merged})}};startSync();return function(){_syncCb=null}},[]);
   const pos=state.position;
   const totalChecked=Object.values(state.checks).reduce((sum,arr)=>sum+arr.length,0);
   const pct=Math.round(totalChecked/TOTAL*100);
@@ -378,7 +378,7 @@ function App(){
       const nc={...prev.checks,[k]:next};if(next.length===0)delete nc[k];
       const cd={...(prev.checkDates||{})};const dk=pi+":"+si;if(next.includes(si)){cd[dk]=today}else{delete cd[dk]}
       let np=Math.min(prev.position,pi);while(np<PAIRS&&(nc[String(np)]||[]).length===2)np++;
-      const s={...prev,checks:nc,log:nl,checkDates:cd,position:np};save(s);setTimeout(function(){_saving.current=false},1000);return s;
+      const s={...prev,checks:nc,log:nl,checkDates:cd,position:np};save(s);setTimeout(function(){_saving.current=false},2000);return s;
     });
   }
 
