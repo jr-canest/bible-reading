@@ -25,6 +25,8 @@
   @keyframes memSlideRight { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:translateX(0)} }
   @keyframes memToast { 0%{opacity:0;transform:translateY(16px)} 15%{opacity:1;transform:translateY(0)} 85%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-8px)} }
   @keyframes memFetchPulse { 0%{width:5%} 50%{width:70%} 100%{width:95%} }
+  @keyframes carouselUp { from{opacity:0.4;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes carouselDown { from{opacity:0.4;transform:translateY(-60px)} to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
@@ -133,6 +135,8 @@ const Check=()=>h("svg",{width:12,height:10,viewBox:"0 0 12 10",fill:"none"},h("
 
 // === VERSE MEMORIZER ===
 var MEM_BOOKS=["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Psalm","Proverbs","Ecclesiastes","Song of Solomon","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"];
+var MEM_ABBR={"gen":"Genesis","ex":"Exodus","exod":"Exodus","lev":"Leviticus","num":"Numbers","deut":"Deuteronomy","josh":"Joshua","judg":"Judges","1 sam":"1 Samuel","2 sam":"2 Samuel","1 kgs":"1 Kings","2 kgs":"2 Kings","1 kings":"1 Kings","2 kings":"2 Kings","1 chr":"1 Chronicles","2 chr":"2 Chronicles","1 chron":"1 Chronicles","2 chron":"2 Chronicles","neh":"Nehemiah","est":"Esther","ps":"Psalm","psa":"Psalm","pss":"Psalms","prov":"Proverbs","eccl":"Ecclesiastes","eccles":"Ecclesiastes","song":"Song of Solomon","sos":"Song of Solomon","isa":"Isaiah","jer":"Jeremiah","lam":"Lamentations","ezek":"Ezekiel","dan":"Daniel","hos":"Hosea","ob":"Obadiah","obad":"Obadiah","jon":"Jonah","mic":"Micah","nah":"Nahum","hab":"Habakkuk","zeph":"Zephaniah","hag":"Haggai","zech":"Zechariah","mal":"Malachi","matt":"Matthew","mat":"Matthew","mk":"Mark","lk":"Luke","jn":"John","rom":"Romans","1 cor":"1 Corinthians","2 cor":"2 Corinthians","gal":"Galatians","eph":"Ephesians","phil":"Philippians","col":"Colossians","1 thess":"1 Thessalonians","2 thess":"2 Thessalonians","1 tim":"1 Timothy","2 tim":"2 Timothy","tit":"Titus","phm":"Philemon","phlm":"Philemon","heb":"Hebrews","jas":"James","1 pet":"1 Peter","2 pet":"2 Peter","1 jn":"1 John","2 jn":"2 John","3 jn":"3 John","rev":"Revelation"};
+function normalizeRef(ref){var m=ref.match(/^(\d?\s?[A-Za-z\s.]+?)\s*(\d+.*)$/);if(!m)return ref;var raw=m[1].trim().replace(/\.$/,""),rest=m[2];var lo=raw.toLowerCase();if(MEM_ABBR[lo])return MEM_ABBR[lo]+" "+rest;var found=MEM_BOOKS.find(function(b){return b.toLowerCase()===lo});if(found)return found+" "+rest;var prefix=MEM_BOOKS.find(function(b){return b.toLowerCase().indexOf(lo)===0});if(prefix)return prefix+" "+rest;return raw+" "+rest}
 function memIsRange(ref){return/\d+:\d+\s*[-\u2013]\s*\d+/.test(ref)}
 function memToSup(n){var s=["⁰","¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹"];return String(n).split("").map(function(d){return s[+d]}).join("")}
 function fetchESV(reference){
@@ -190,7 +194,7 @@ function MemoryView(){
   function mHandleFetch(){
     if(!mAddRef.trim())return;
     setMFetching(true);setMFetchErr(null);setMPreview(null);
-    fetchESV(mAddRef.trim()).then(function(text){setMPreview({reference:mAddRef.trim(),text:text})}).catch(function(e){setMFetchErr(e.message||"Unknown error")}).finally(function(){setMFetching(false)});
+    fetchESV(mAddRef.trim()).then(function(text){setMPreview({reference:normalizeRef(mAddRef.trim()),text:text})}).catch(function(e){setMFetchErr(e.message||"Unknown error")}).finally(function(){setMFetching(false)});
   }
   function mConfirmAdd(){
     if(!mPreview)return;
@@ -345,13 +349,26 @@ function App(){
   const[state,setState]=React.useState(load);
   const[view,setView]=React.useState("read");
   const[browseIdx,setBrowseIdx]=React.useState(null);
+  const[slideDir,setSlideDir]=React.useState(null);
   const _saving=React.useRef(false);
+  const _slideTimer=React.useRef(null);
   React.useEffect(function(){_syncCb=function(remote){if(!_saving.current){setState(function(prev){return migrateInitialProgress({...ds(),...remote})})}};startSync();return function(){_syncCb=null}},[]);
   const pos=state.position;
   const totalChecked=Object.values(state.checks).reduce((sum,arr)=>sum+arr.length,0);
   const pct=Math.round(totalChecked/TOTAL*100);
 
   function toggle(pi,si){
+    const cur=state.checks[String(pi)]||[];
+    const willComplete=!cur.includes(si)&&cur.length===1;
+    const willUncomplete=cur.includes(si)&&cur.length===2;
+    if(willComplete||willUncomplete){
+      if(_slideTimer.current)clearTimeout(_slideTimer.current);
+      setSlideDir(willComplete?"up":"down");
+      _slideTimer.current=setTimeout(()=>{setSlideDir(null);_slideTimer.current=null},350);
+    }
+    applyToggle(pi,si);
+  }
+  function applyToggle(pi,si){
     _saving.current=true;
     setState(prev=>{
       const k=String(pi),cur=prev.checks[k]||[];
@@ -360,7 +377,7 @@ function App(){
       const nl={...prev.log};nl[today]=(nl[today]||0)+delta;if(nl[today]<=0)delete nl[today];
       const nc={...prev.checks,[k]:next};if(next.length===0)delete nc[k];
       const cd={...(prev.checkDates||{})};const dk=pi+":"+si;if(next.includes(si)){cd[dk]=today}else{delete cd[dk]}
-      let np=prev.position;while(np<PAIRS&&(nc[String(np)]||[]).length===2)np++;
+      let np=Math.min(prev.position,pi);while(np<PAIRS&&(nc[String(np)]||[]).length===2)np++;
       const s={...prev,checks:nc,log:nl,checkDates:cd,position:np};save(s);setTimeout(function(){_saving.current=false},1000);return s;
     });
   }
@@ -428,7 +445,7 @@ function App(){
     h("div",{style:{display:"flex",gap:0,padding:"16px 20px 0"}},tab("read","Read"),tab("browse","Browse"),tab("stats","Stats"),tab("memory","Memory")),
     // Content
     h("div",{style:{padding:"16px 20px 40px"}},
-      view==="read"&&h("div",{style:{display:"flex",flexDirection:"column",gap:12}},
+      view==="read"&&h("div",{key:pos,style:{display:"flex",flexDirection:"column",gap:12,animation:slideDir==="up"?"carouselUp 0.35s ease both":slideDir==="down"?"carouselDown 0.35s ease both":"none"}},
         pos>=2&&h("div",null,
           h("div",{style:{fontSize:12,color:"#a09585",marginBottom:6,fontFamily:"'Newsreader',serif",fontStyle:"italic"}},"Recently read · tap to undo"),
           h(PairCard,{pairIdx:pos-2,isCurrent:false,state,toggle}),
