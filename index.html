@@ -73,14 +73,14 @@ function lookupPin(pin){
   db.collection("mcheyne-users").get().then(function(snap){
     var found=null;
     snap.forEach(function(doc){if(doc.data().pin===pin)found=doc.id});
-    if(found){_currentUser=found;sessionStorage.setItem("br_user",found);document.getElementById("pin-gate").style.display="none";bootApp(found)}
+    if(found){_currentUser=found;sessionStorage.setItem("br_user",found);document.getElementById("pin-gate").style.display="none";document.getElementById("root").style.display="block";bootApp(found)}
     else{document.getElementById("pin-error").textContent="Incorrect PIN";_pin="";setTimeout(function(){updateDots();document.getElementById("pin-error").textContent=""},800)}
   }).catch(function(){document.getElementById("pin-error").textContent="Connection error";_pin="";setTimeout(function(){updateDots();document.getElementById("pin-error").textContent=""},1200)})
 }
 var _savedUser=sessionStorage.getItem("br_user");
-if(_savedUser){_currentUser=_savedUser;document.getElementById("pin-gate").style.display="none"}
+if(_savedUser){_currentUser=_savedUser;document.getElementById("pin-gate").style.display="none";document.getElementById("root").style.display="block"}
 </script>
-<div id="root" style="max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh"></div>
+<div id="root" style="max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;display:none"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script>
