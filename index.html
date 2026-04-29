@@ -399,7 +399,7 @@ function ReaderModal({reference,onClose}){
 function PairCard({pairIdx,label,isCurrent,state,toggle,onOpenReader}){
   if(pairIdx<0||pairIdx>=PAIRS)return null;
   const pair=gp(pairIdx),checks=state.checks[String(pairIdx)]||[],complete=checks.length===2;
-  return h("div",{style:{background:isCurrent?"#fefdfb":"#faf7ea",borderRadius:16,padding:"20px 20px 16px",boxShadow:isCurrent?"0 2px 20px rgba(68,69,71,0.1)":"0 1px 4px rgba(68,69,71,0.06)",border:isCurrent?"2px solid #b1a48b":"1px solid #e6e5db",opacity:complete&&!isCurrent?0.6:1,transition:"all 0.3s ease"}},
+  return h("div",{style:{background:isCurrent?"#fefdfb":"#f8f7ef",borderRadius:16,padding:"20px 20px 16px",boxShadow:isCurrent?"0 2px 20px rgba(68,69,71,0.1)":"0 1px 4px rgba(68,69,71,0.06)",border:isCurrent?"2px solid #b1a48b":"1px solid #e6e5db",opacity:complete&&!isCurrent?0.6:1,transition:"all 0.3s ease"}},
     h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
       h("div",null,
         label&&h("div",{style:{fontSize:11,fontFamily:"'Newsreader',serif",color:"#b1a48b",letterSpacing:"0.1em",textTransform:"uppercase",fontWeight:600}},label),
@@ -488,7 +488,7 @@ function App(){
               const idx=chunk.start+di,pair=gp(idx),checks=state.checks[String(idx)]||[];
               const complete=checks.length===2,partial=checks.length===1,isCurrent=idx===pos,isExp=browseIdx===idx;
               return h("div",{key:idx},
-                h("button",{onClick:()=>setBrowseIdx(isExp?null:idx),style:{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"7px 8px",borderRadius:6,border:"none",cursor:"pointer",textAlign:"left",background:isCurrent?"#edece3":isExp?"#faf7ea":"transparent",borderLeft:isCurrent?"3px solid #b1a48b":"3px solid transparent"}},
+                h("button",{onClick:()=>setBrowseIdx(isExp?null:idx),style:{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"7px 8px",borderRadius:6,border:"none",cursor:"pointer",textAlign:"left",background:isCurrent?"#edece3":isExp?"#f8f7ef":"transparent",borderLeft:isCurrent?"3px solid #b1a48b":"3px solid transparent"}},
                   h("div",{style:{width:7,height:7,borderRadius:"50%",flexShrink:0,background:complete?"#b1a48b":partial?"#d4bc8f":"#d8d3bf"}}),
                   h("div",{style:{fontSize:13,fontFamily:"'Newsreader',serif",color:complete?"#9ea0a2":"#555658",fontWeight:isCurrent?700:400,textDecoration:complete?"line-through":"none",flex:1}},pair[0]+"  &  "+pair[1]),
                   isCurrent&&h("span",{style:{fontSize:9,background:"#b1a48b",color:"#fff",padding:"2px 6px",borderRadius:4,fontWeight:700,fontFamily:"system-ui"}},"NEXT")
