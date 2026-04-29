@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Bible Reading">
-<meta name="theme-color" content="#f4f1e5">
+<meta name="theme-color" content="#f4f3ed">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body { background:#f4f1e5; font-family:system-ui,-apple-system,sans-serif; overflow-x:hidden; }
+  body { background:#f4f3ed; font-family:system-ui,-apple-system,sans-serif; overflow-x:hidden; }
   .memFadeUp { animation: memFadeUp 0.3s ease both; }
   .memSlideLeft { animation: memSlideLeft 0.2s ease both; }
   .memSlideRight { animation: memSlideRight 0.2s ease both; }
@@ -29,14 +29,14 @@
   @keyframes carouselDown { from{opacity:0.4;transform:translateY(-60px)} to{opacity:1;transform:translateY(0)} }
   @keyframes readerFade { from{opacity:0} to{opacity:1} }
   @keyframes readerSlide { from{transform:translateY(32px);opacity:0.4} to{transform:translateY(0);opacity:1} }
-  .esv-passage { font-family:'Newsreader',serif; color:#444547; font-size:18px; line-height:1.6; font-weight:400; }
-  .esv-passage h2, .esv-passage h3 { font-family:'Newsreader',serif; font-size:19px; font-weight:400; font-style:italic; color:#444547; margin:22px 0 10px; letter-spacing:0; }
-  .esv-passage h4 { font-family:'Newsreader',serif; font-size:13px; font-weight:400; color:#707173; margin:0 0 18px; font-variant:small-caps; letter-spacing:0.04em; line-height:1.4; }
+  .esv-passage { font-family:'Newsreader',serif; color:#444547; font-size:20px; line-height:1.6; font-weight:400; }
+  .esv-passage h2, .esv-passage h3 { font-family:'Newsreader',serif; font-size:21px; font-weight:400; font-style:italic; color:#444547; margin:22px 0 10px; letter-spacing:0; }
+  .esv-passage h4 { font-family:'Newsreader',serif; font-size:14px; font-weight:400; color:#707173; margin:0 0 18px; font-variant:small-caps; letter-spacing:0.04em; line-height:1.4; }
   .esv-passage h2.extra_text, .esv-passage .extra_text { display:none; }
   .esv-passage p { margin:0 0 4px; }
   .esv-passage p.starts-chapter { min-height:56px; }
-  .esv-passage .chapter-num { font-family:'Newsreader',serif; font-weight:400; font-size:56px; color:#444547; float:left; line-height:0.85; padding:8px 14px 0 0; letter-spacing:-0.02em; }
-  .esv-passage .verse-num { font-family:'Newsreader',serif; font-size:11px; font-weight:400; color:#b69764; vertical-align:super; margin-right:3px; line-height:0; }
+  .esv-passage .chapter-num { font-family:'Newsreader',serif; font-weight:400; font-size:62px; color:#444547; float:left; line-height:0.85; padding:8px 14px 0 0; letter-spacing:-0.02em; }
+  .esv-passage .verse-num { font-family:'Newsreader',serif; font-size:12px; font-weight:400; color:#b1a48b; vertical-align:super; margin-right:3px; line-height:0; }
   .esv-passage br { display:none; }
   .esv-passage .woc { color:#8a3a1a; }
   .esv-passage .line { display:block; padding-left:18px; text-indent:0; }
@@ -45,7 +45,7 @@
   .esv-passage .block-indent { margin-left:18px; }
   .esv-passage .declares { font-size:12px; font-style:italic; color:#9ea0a2; }
   .esv-passage small { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:#9ea0a2; }
-  .esv-passage .copyright { margin-top:32px; font-size:10px; color:#9ea0a2; font-style:italic; text-align:center; border-top:1px solid #e2ddcb; padding-top:14px; clear:both; }
+  .esv-passage .copyright { margin-top:32px; font-size:10px; color:#9ea0a2; font-style:italic; text-align:center; border-top:1px solid #e6e5db; padding-top:14px; clear:both; }
 </style>
 </head>
 <body>
@@ -75,8 +75,8 @@
   </div>
 </div>
 <style>
-  .pk{width:72px;height:56px;border-radius:14px;border:1px solid #e2ddcb;background:#fff;font-size:22px;font-family:'Newsreader',serif;font-weight:600;color:#444547;cursor:pointer;transition:all 0.15s}
-  .pk:active{background:#ebe6d3;transform:scale(0.95)}
+  .pk{width:72px;height:56px;border-radius:14px;border:1px solid #e6e5db;background:#fff;font-size:22px;font-family:'Newsreader',serif;font-weight:600;color:#444547;cursor:pointer;transition:all 0.15s}
+  .pk:active{background:#edece3;transform:scale(0.95)}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -87,7 +87,7 @@ var docRef=null;
 var _pin="",_currentUser=null;
 function pinKey(n){if(_pin.length>=4)return;_pin+=n;updateDots();if(_pin.length===4){document.getElementById("pin-error").textContent="";lookupPin(_pin)}}
 function pinDel(){if(_pin.length>0){_pin=_pin.slice(0,-1);updateDots();document.getElementById("pin-error").textContent=""}}
-function updateDots(){var dots=document.querySelectorAll("#pin-dots .dot");for(var i=0;i<4;i++){dots[i].style.background=i<_pin.length?"#b69764":"transparent";dots[i].style.borderColor=i<_pin.length?"#b69764":"#bebaa8"}}
+function updateDots(){var dots=document.querySelectorAll("#pin-dots .dot");for(var i=0;i<4;i++){dots[i].style.background=i<_pin.length?"#b1a48b":"transparent";dots[i].style.borderColor=i<_pin.length?"#b1a48b":"#bebaa8"}}
 function lookupPin(pin){
   db.collection("mcheyne-users").get().then(function(snap){
     var found=null;
@@ -254,12 +254,12 @@ function MemoryView(){
   var mCur=mRevSorted[mRevIdx];
 
   // Toast element
-  var toastEl=mToast&&h("div",{style:{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:"#444547",color:"#f4f1e5",padding:"10px 24px",borderRadius:10,fontSize:14,fontWeight:500,zIndex:1001,animation:"memToast 2.2s ease both",boxShadow:"0 4px 16px rgba(0,0,0,0.15)"}},mToast);
+  var toastEl=mToast&&h("div",{style:{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:"#444547",color:"#f4f3ed",padding:"10px 24px",borderRadius:10,fontSize:14,fontWeight:500,zIndex:1001,animation:"memToast 2.2s ease both",boxShadow:"0 4px 16px rgba(0,0,0,0.15)"}},mToast);
 
   // === FULL-SCREEN REVIEW ===
   if(mView==="review"&&mCur){
     var anim=mSwipeDir==="left"?"memSlideLeft":mSwipeDir==="right"?"memSlideRight":"memFadeUp";
-    return h("div",{style:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"#f4f1e5",zIndex:1000,display:"flex",flexDirection:"column",color:"#444547",userSelect:"none",overflow:"hidden"}},
+    return h("div",{style:{position:"fixed",top:0,left:0,right:0,bottom:0,background:"#f4f3ed",zIndex:1000,display:"flex",flexDirection:"column",color:"#444547",userSelect:"none",overflow:"hidden"}},
       h("div",{style:{display:"flex",alignItems:"center",gap:12,padding:"16px 20px 8px"}},
         h("button",{style:{background:"none",border:"none",fontSize:20,color:"#9ea0a2",cursor:"pointer",padding:"4px 8px",lineHeight:1},onClick:function(){setMView("list")}},"✕"),
         h("span",{style:{fontSize:13,color:"#9ea0a2",fontWeight:500,fontFamily:"'Newsreader',serif"}},(mRevIdx+1)+" / "+mRevSorted.length)
@@ -268,43 +268,43 @@ function MemoryView(){
         mRevSorted.map(function(_,i){return h("div",{key:i,style:{width:8,height:8,borderRadius:"50%",transition:"background 0.2s",background:i===mRevIdx?"#444547":i<mRevIdx?"#9ea0a2":"#d8d3bf"}})})
       ),
       h("div",{style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px 28px",minHeight:0},onTouchStart:mTS,onTouchMove:mTM,onTouchEnd:mTE},
-        h("div",{className:anim,key:mRevIdx,style:{background:"#fffef9",borderRadius:16,padding:"40px 32px",boxShadow:"0 4px 24px rgba(0,0,0,0.06)",width:"100%",maxWidth:520,border:"1px solid #e2ddcb"}},
+        h("div",{className:anim,key:mRevIdx,style:{background:"#fefdfb",borderRadius:16,padding:"40px 32px",boxShadow:"0 4px 24px rgba(0,0,0,0.06)",width:"100%",maxWidth:520,border:"1px solid #e6e5db"}},
           mCur.learning&&h("div",{style:{display:"inline-block",background:"#f0e5cf",color:"#8d7349",fontSize:11,fontWeight:600,padding:"3px 10px",borderRadius:20,marginBottom:16,letterSpacing:"0.02em"}},"Currently learning"),
           h("h2",{style:{fontFamily:"'Newsreader',serif",fontSize:28,fontWeight:600,color:"#444547",lineHeight:1.2,marginBottom:4}},mCur.reference),
-          h("div",{style:{height:1,background:"#e2ddcb",margin:"20px 0"}}),
+          h("div",{style:{height:1,background:"#e6e5db",margin:"20px 0"}}),
           h("p",{style:{fontFamily:"'Cormorant Garamond',serif",fontSize:21,lineHeight:1.65,color:"#444547"}},mCur.text)
         )
       ),
       h("div",{style:{padding:"12px 20px 28px",textAlign:"center"}},h("span",{style:{fontSize:13,color:"#9ea0a2"}},"Swipe to navigate")),
-      h("button",{style:{position:"absolute",top:"50%",left:8,transform:"translateY(-50%)",background:"rgba(255,255,255,0.9)",border:"1px solid #e2ddcb",borderRadius:"50%",width:40,height:40,fontSize:22,color:"#9ea0a2",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.08)",zIndex:10,lineHeight:1},onClick:function(){mGoTo(mRevIdx-1,"right")}},"\u2039"),
-      h("button",{style:{position:"absolute",top:"50%",right:8,transform:"translateY(-50%)",background:"rgba(255,255,255,0.9)",border:"1px solid #e2ddcb",borderRadius:"50%",width:40,height:40,fontSize:22,color:"#9ea0a2",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.08)",zIndex:10,lineHeight:1},onClick:function(){mGoTo(mRevIdx+1,"left")}},"\u203A"),
+      h("button",{style:{position:"absolute",top:"50%",left:8,transform:"translateY(-50%)",background:"rgba(255,255,255,0.9)",border:"1px solid #e6e5db",borderRadius:"50%",width:40,height:40,fontSize:22,color:"#9ea0a2",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.08)",zIndex:10,lineHeight:1},onClick:function(){mGoTo(mRevIdx-1,"right")}},"\u2039"),
+      h("button",{style:{position:"absolute",top:"50%",right:8,transform:"translateY(-50%)",background:"rgba(255,255,255,0.9)",border:"1px solid #e6e5db",borderRadius:"50%",width:40,height:40,fontSize:22,color:"#9ea0a2",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.08)",zIndex:10,lineHeight:1},onClick:function(){mGoTo(mRevIdx+1,"left")}},"\u203A"),
       toastEl
     );
   }
 
   // === LIST / ADD VIEW ===
   return h("div",{style:{display:"flex",flexDirection:"column",gap:16}},
-    mView==="add"&&h("button",{onClick:function(){setMView("list");setMFetchErr(null);setMPreview(null)},style:{padding:10,borderRadius:10,border:"1px solid #d4bc8f",background:"#ebe6d3",cursor:"pointer",color:"#b69764",fontSize:13,fontFamily:"'Newsreader',serif",fontWeight:600,alignSelf:"flex-start"}},"\u2190 Back to verses"),
+    mView==="add"&&h("button",{onClick:function(){setMView("list");setMFetchErr(null);setMPreview(null)},style:{padding:10,borderRadius:10,border:"1px solid #d4bc8f",background:"#edece3",cursor:"pointer",color:"#b1a48b",fontSize:13,fontFamily:"'Newsreader',serif",fontWeight:600,alignSelf:"flex-start"}},"\u2190 Back to verses"),
 
     mView==="list"&&h("div",{style:{fontSize:13,color:"#9ea0a2",fontFamily:"'Newsreader',serif"}},
       mVerses.length+" verse"+(mVerses.length!==1?"s":"")+(mLearningCount>0?" \xB7 "+mLearningCount+" learning":"")
     ),
 
     mView==="list"&&h("div",{style:{display:"flex",gap:10}},
-      h("button",{onClick:function(){setMView("add")},style:{background:"#b69764",color:"#f4f1e5",border:"none",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif"}},"\u002B Add Verse"),
-      h("button",{onClick:mStartReview,disabled:!mVerses.length,style:{background:"none",border:"1px solid #b69764",color:"#b69764",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif",opacity:mVerses.length?1:0.4}},"Review All")
+      h("button",{onClick:function(){setMView("add")},style:{background:"#b1a48b",color:"#f4f3ed",border:"none",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif"}},"\u002B Add Verse"),
+      h("button",{onClick:mStartReview,disabled:!mVerses.length,style:{background:"none",border:"1px solid #b1a48b",color:"#b1a48b",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif",opacity:mVerses.length?1:0.4}},"Review All")
     ),
 
     mView==="list"&&(mSorted.length===0
       ?h("div",{style:{textAlign:"center",padding:"40px 20px"}},h("p",{style:{fontFamily:"'Newsreader',serif",fontSize:16,color:"#9ea0a2"}},"No verses yet. Add your first one to get started."))
       :h("div",{style:{display:"flex",flexDirection:"column",gap:10}},
         mSorted.map(function(v){
-          return h("div",{key:v.id,style:{background:"#fffef9",borderRadius:14,padding:"16px 18px",borderLeft:"3px solid "+(v.learning?"#d4bc8f":"#b69764"),boxShadow:"0 1px 4px rgba(68,69,71,0.06)"}},
+          return h("div",{key:v.id,style:{background:"#fefdfb",borderRadius:14,padding:"16px 18px",borderLeft:"3px solid "+(v.learning?"#d4bc8f":"#b1a48b"),boxShadow:"0 1px 4px rgba(68,69,71,0.06)"}},
             h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8,flexWrap:"wrap",gap:8}},
               h("h3",{style:{fontFamily:"'Newsreader',serif",fontSize:18,fontWeight:600,color:"#444547"}},v.reference),
               h("div",{style:{display:"flex",gap:6,alignItems:"center"}},
-                h("button",{style:{display:"inline-flex",alignItems:"center",gap:5,border:"none",borderRadius:20,padding:"3px 12px 3px 8px",fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"system-ui",background:v.learning?"#f0e5cf":"#ebe6d3",color:v.learning?"#8d7349":"#555658"},onClick:function(){mToggleLearning(v.id)}},
-                  h("span",{style:{width:7,height:7,borderRadius:"50%",display:"inline-block",background:v.learning?"#d4bc8f":"#b69764"}}),
+                h("button",{style:{display:"inline-flex",alignItems:"center",gap:5,border:"none",borderRadius:20,padding:"3px 12px 3px 8px",fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"system-ui",background:v.learning?"#f0e5cf":"#edece3",color:v.learning?"#8d7349":"#555658"},onClick:function(){mToggleLearning(v.id)}},
+                  h("span",{style:{width:7,height:7,borderRadius:"50%",display:"inline-block",background:v.learning?"#d4bc8f":"#b1a48b"}}),
                   v.learning?"Learning":"Learned"
                 ),
                 mDelConfirm===v.id
@@ -321,31 +321,31 @@ function MemoryView(){
       )
     ),
 
-    mView==="add"&&h("div",{style:{background:"#fffef9",borderRadius:14,padding:24,boxShadow:"0 1px 4px rgba(68,69,71,0.06)",border:"1px solid #e2ddcb"}},
+    mView==="add"&&h("div",{style:{background:"#fefdfb",borderRadius:14,padding:24,boxShadow:"0 1px 4px rgba(68,69,71,0.06)",border:"1px solid #e6e5db"}},
       h("h2",{style:{fontFamily:"'Newsreader',serif",fontSize:22,fontWeight:600,color:"#444547",marginBottom:4}},"Add a Verse"),
       h("p",{style:{fontSize:13,color:"#9ea0a2",lineHeight:1.5,marginBottom:8,fontFamily:"'Newsreader',serif"}},"Type an ESV reference, look it up, then confirm to add. Ranges like \u201CRomans 8:28-30\u201D work as single cards with verse numbers."),
       !mPreview
         ?h("div",null,
           h("label",{style:{fontSize:12,fontWeight:600,color:"#9ea0a2",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:6,display:"block",marginTop:16}},"Reference"),
           h("div",{style:{display:"flex",gap:8}},
-            h("input",{style:{flex:1,border:"1px solid #d8d3bf",borderRadius:8,padding:"10px 14px",fontSize:15,fontFamily:"system-ui",background:"#f4f1e5",color:"#444547"},value:mAddRef,onChange:function(e){setMAddRef(e.target.value);setMFetchErr(null)},placeholder:"e.g. John 3:16 or Psalm 25:8-10",onKeyDown:function(e){if(e.key==="Enter")mHandleFetch()},disabled:mFetching,autoFocus:true}),
-            h("button",{style:{background:"#b69764",color:"#f4f1e5",border:"none",borderRadius:8,padding:"10px 18px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif",whiteSpace:"nowrap",opacity:!mAddRef.trim()||mFetching?0.5:1},onClick:mHandleFetch,disabled:!mAddRef.trim()||mFetching},mFetching?"Looking up\u2026":"Look up")
+            h("input",{style:{flex:1,border:"1px solid #d8d3bf",borderRadius:8,padding:"10px 14px",fontSize:15,fontFamily:"system-ui",background:"#f4f3ed",color:"#444547"},value:mAddRef,onChange:function(e){setMAddRef(e.target.value);setMFetchErr(null)},placeholder:"e.g. John 3:16 or Psalm 25:8-10",onKeyDown:function(e){if(e.key==="Enter")mHandleFetch()},disabled:mFetching,autoFocus:true}),
+            h("button",{style:{background:"#b1a48b",color:"#f4f3ed",border:"none",borderRadius:8,padding:"10px 18px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif",whiteSpace:"nowrap",opacity:!mAddRef.trim()||mFetching?0.5:1},onClick:mHandleFetch,disabled:!mAddRef.trim()||mFetching},mFetching?"Looking up\u2026":"Look up")
           ),
-          mFetching&&h("div",{style:{marginTop:12,height:3,background:"#e2ddcb",borderRadius:3,overflow:"hidden"}},h("div",{style:{height:"100%",background:"#b69764",borderRadius:3,animation:"memFetchPulse 2s ease-in-out infinite"}})),
+          mFetching&&h("div",{style:{marginTop:12,height:3,background:"#e6e5db",borderRadius:3,overflow:"hidden"}},h("div",{style:{height:"100%",background:"#b1a48b",borderRadius:3,animation:"memFetchPulse 2s ease-in-out infinite"}})),
           mFetchErr&&h("div",{style:{marginTop:16,background:"#faeaea",border:"1px solid #e7c4c4",borderRadius:8,padding:"12px 16px"}},
             h("p",{style:{fontSize:13,fontWeight:600,color:"#c0392b",marginBottom:4}},"Something went wrong"),
             h("p",{style:{fontSize:12,color:"#9ea0a2",lineHeight:1.4,wordBreak:"break-word"}},mFetchErr)
           )
         )
         :h("div",{style:{marginTop:16}},
-          h("div",{style:{background:"#f4f1e5",border:"1px solid #e2ddcb",borderRadius:10,padding:"20px 22px"}},
+          h("div",{style:{background:"#f4f3ed",border:"1px solid #e6e5db",borderRadius:10,padding:"20px 22px"}},
             h("h3",{style:{fontFamily:"'Newsreader',serif",fontSize:20,fontWeight:600,color:"#444547"}},mPreview.reference),
-            h("div",{style:{height:1,background:"#e2ddcb",margin:"14px 0"}}),
+            h("div",{style:{height:1,background:"#e6e5db",margin:"14px 0"}}),
             h("p",{style:{fontFamily:"'Cormorant Garamond',serif",fontSize:17,lineHeight:1.6,color:"#444547"}},mPreview.text),
             h("p",{style:{fontSize:11,color:"#9ea0a2",marginTop:12,fontWeight:500,letterSpacing:"0.05em"}},"ESV")
           ),
           h("div",{style:{display:"flex",gap:10,marginTop:16}},
-            h("button",{style:{background:"#b69764",color:"#f4f1e5",border:"none",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif"},onClick:mConfirmAdd},"Add This Verse"),
+            h("button",{style:{background:"#b1a48b",color:"#f4f3ed",border:"none",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'Newsreader',serif"},onClick:mConfirmAdd},"Add This Verse"),
             h("button",{style:{background:"none",border:"1px solid #d8d3bf",color:"#9ea0a2",borderRadius:10,padding:"10px 20px",fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:"'Newsreader',serif"},onClick:function(){setMPreview(null)}},"Try Another")
           )
         )
@@ -376,13 +376,13 @@ function ReaderModal({reference,onClose}){
   },[onClose]);
   if(!reference)return null;
   return ReactDOM.createPortal(h("div",{onClick:onClose,style:{position:"fixed",inset:0,background:"rgba(68,69,71,0.5)",zIndex:1000,display:"flex",alignItems:"flex-end",justifyContent:"center",animation:"readerFade 0.2s ease both"}},
-    h("div",{onClick:function(e){e.stopPropagation()},style:{background:"#f4f1e5",width:"100%",maxWidth:480,maxHeight:"92vh",borderRadius:"20px 20px 0 0",display:"flex",flexDirection:"column",boxShadow:"0 -4px 30px rgba(68,69,71,0.25)",animation:"readerSlide 0.28s ease both"}},
-      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 20px",borderBottom:"1px solid #e2ddcb",flexShrink:0}},
+    h("div",{onClick:function(e){e.stopPropagation()},style:{background:"#f4f3ed",width:"100%",maxWidth:480,maxHeight:"92vh",borderRadius:"20px 20px 0 0",display:"flex",flexDirection:"column",boxShadow:"0 -4px 30px rgba(68,69,71,0.25)",animation:"readerSlide 0.28s ease both"}},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 20px",borderBottom:"1px solid #e6e5db",flexShrink:0}},
         h("div",null,
           h("div",{style:{fontSize:10,letterSpacing:"0.2em",textTransform:"uppercase",color:"#8d7349",fontWeight:600}},"ESV"),
           h("div",{style:{fontFamily:"'Newsreader',serif",fontSize:18,fontWeight:700,color:"#444547",lineHeight:1.2}},reference)
         ),
-        h("button",{onClick:onClose,"aria-label":"Close",style:{width:36,height:36,borderRadius:"50%",border:"none",background:"#ebe6d3",color:"#444547",fontSize:22,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1,padding:0}},"×")
+        h("button",{onClick:onClose,"aria-label":"Close",style:{width:36,height:36,borderRadius:"50%",border:"none",background:"#edece3",color:"#444547",fontSize:22,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1,padding:0}},"×")
       ),
       h("div",{style:{overflowY:"auto",padding:"20px 22px 32px",flex:1,WebkitOverflowScrolling:"touch"}},
         loading&&h("div",{style:{padding:"48px 0",textAlign:"center",color:"#9ea0a2",fontFamily:"'Newsreader',serif",fontStyle:"italic",fontSize:15}},"Loading passage…"),
@@ -399,26 +399,26 @@ function ReaderModal({reference,onClose}){
 function PairCard({pairIdx,label,isCurrent,state,toggle,onOpenReader}){
   if(pairIdx<0||pairIdx>=PAIRS)return null;
   const pair=gp(pairIdx),checks=state.checks[String(pairIdx)]||[],complete=checks.length===2;
-  return h("div",{style:{background:isCurrent?"#fffef9":"#faf7ea",borderRadius:16,padding:"20px 20px 16px",boxShadow:isCurrent?"0 2px 20px rgba(68,69,71,0.1)":"0 1px 4px rgba(68,69,71,0.06)",border:isCurrent?"2px solid #b69764":"1px solid #e2ddcb",opacity:complete&&!isCurrent?0.6:1,transition:"all 0.3s ease"}},
+  return h("div",{style:{background:isCurrent?"#fefdfb":"#faf7ea",borderRadius:16,padding:"20px 20px 16px",boxShadow:isCurrent?"0 2px 20px rgba(68,69,71,0.1)":"0 1px 4px rgba(68,69,71,0.06)",border:isCurrent?"2px solid #b1a48b":"1px solid #e6e5db",opacity:complete&&!isCurrent?0.6:1,transition:"all 0.3s ease"}},
     h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
       h("div",null,
-        label&&h("div",{style:{fontSize:11,fontFamily:"'Newsreader',serif",color:"#b69764",letterSpacing:"0.1em",textTransform:"uppercase",fontWeight:600}},label),
+        label&&h("div",{style:{fontSize:11,fontFamily:"'Newsreader',serif",color:"#b1a48b",letterSpacing:"0.1em",textTransform:"uppercase",fontWeight:600}},label),
         h("div",{style:{fontSize:13,color:"#707173",fontFamily:"'Newsreader',serif"}},"Pair "+(pairIdx+1)+" of "+PAIRS)
       ),
-      h("div",{style:{width:36,height:36,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,fontFamily:"'Newsreader',serif",background:complete?"#b69764":checks.length>0?"#d4bc8f":"#e2ddcb",color:checks.length>0?"#fff":"#9ea0a2",transition:"all 0.3s ease"}},complete?"✓":checks.length+"/2")
+      h("div",{style:{width:36,height:36,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,fontFamily:"'Newsreader',serif",background:complete?"#b1a48b":checks.length>0?"#d4bc8f":"#e6e5db",color:checks.length>0?"#fff":"#9ea0a2",transition:"all 0.3s ease"}},complete?"✓":checks.length+"/2")
     ),
     h("div",{style:{display:"flex",flexDirection:"column",gap:6}},
       pair.map((r,i)=>{
         const done=checks.includes(i);
-        return h("div",{key:i,style:{display:"flex",alignItems:"center",gap:2,borderRadius:10,background:done?"#ebe6d3":"transparent",transition:"all 0.2s ease"}},
+        return h("div",{key:i,style:{display:"flex",alignItems:"center",gap:2,borderRadius:10,background:done?"#edece3":"transparent",transition:"all 0.2s ease"}},
           h("button",{onClick:()=>toggle(pairIdx,i),style:{flex:1,display:"flex",alignItems:"center",gap:12,padding:"12px",borderRadius:10,border:"none",background:"transparent",cursor:"pointer",textAlign:"left",transition:"all 0.2s ease",minWidth:0}},
-            h("div",{style:{width:24,height:24,borderRadius:7,flexShrink:0,border:done?"2px solid #b69764":"2px solid #bebaa8",background:done?"#b69764":"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s ease"}},done&&h(Check)),
+            h("div",{style:{width:24,height:24,borderRadius:7,flexShrink:0,border:done?"2px solid #b1a48b":"2px solid #bebaa8",background:done?"#b1a48b":"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s ease"}},done&&h(Check)),
             h("div",{style:{flex:1,minWidth:0}},
               h("div",{style:{fontSize:18,fontFamily:"'Newsreader',serif",fontWeight:600,color:done?"#9ea0a2":"#444547",textDecoration:done?"line-through":"none",transition:"all 0.2s ease"}},r),
               h("div",{style:{fontSize:11,color:"#9ea0a2",fontFamily:"system-ui",marginTop:1}},cat(r))
             )
           ),
-          onOpenReader&&h("button",{onClick:()=>onOpenReader(r),"aria-label":"Read "+r,title:"Read "+r+" (ESV)",style:{flexShrink:0,width:40,height:40,marginRight:6,borderRadius:10,border:"none",background:"transparent",color:"#b69764",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:0.7,transition:"opacity 0.2s ease"}},h(BookIcon))
+          onOpenReader&&h("button",{onClick:()=>onOpenReader(r),"aria-label":"Read "+r,title:"Read "+r+" (ESV)",style:{flexShrink:0,width:40,height:40,marginRight:6,borderRadius:10,border:"none",background:"transparent",color:"#b1a48b",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:0.7,transition:"opacity 0.2s ease"}},h(BookIcon))
         )
       })
     )
@@ -474,13 +474,13 @@ function App(){
     const CH=73,chunks=[];
     for(let i=0;i<PAIRS;i+=CH){const end=Math.min(i+CH,PAIRS);chunks.push({start:i,end,label:gp(i)[0]+" – "+gp(end-1)[1]})}
     return h("div",{style:{display:"flex",flexDirection:"column",gap:16}},
-      h("button",{onClick:()=>{setBrowseIdx(null);setView("read")},style:{padding:10,borderRadius:10,border:"1px solid #d4bc8f",background:"#ebe6d3",cursor:"pointer",color:"#b69764",fontSize:13,fontFamily:"'Newsreader',serif",fontWeight:600}},"← Back to current readings"),
+      h("button",{onClick:()=>{setBrowseIdx(null);setView("read")},style:{padding:10,borderRadius:10,border:"1px solid #d4bc8f",background:"#edece3",cursor:"pointer",color:"#b1a48b",fontSize:13,fontFamily:"'Newsreader',serif",fontWeight:600}},"← Back to current readings"),
       chunks.map((chunk,ci)=>{
         const hasPos=pos>=chunk.start&&pos<chunk.end;
         return h("div",{key:ci},
           h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}},
-            h("div",{style:{fontSize:12,fontFamily:"'Newsreader',serif",fontWeight:700,color:"#b69764",letterSpacing:"0.03em",display:"flex",alignItems:"center",gap:8}},
-              chunk.label,hasPos&&h("span",{style:{fontSize:9,background:"#b69764",color:"#fff",padding:"1px 6px",borderRadius:4,fontWeight:700,fontFamily:"system-ui",letterSpacing:0}},"HERE")
+            h("div",{style:{fontSize:12,fontFamily:"'Newsreader',serif",fontWeight:700,color:"#b1a48b",letterSpacing:"0.03em",display:"flex",alignItems:"center",gap:8}},
+              chunk.label,hasPos&&h("span",{style:{fontSize:9,background:"#b1a48b",color:"#fff",padding:"1px 6px",borderRadius:4,fontWeight:700,fontFamily:"system-ui",letterSpacing:0}},"HERE")
             )
           ),
           h("div",{style:{display:"flex",flexDirection:"column",gap:1}},
@@ -488,10 +488,10 @@ function App(){
               const idx=chunk.start+di,pair=gp(idx),checks=state.checks[String(idx)]||[];
               const complete=checks.length===2,partial=checks.length===1,isCurrent=idx===pos,isExp=browseIdx===idx;
               return h("div",{key:idx},
-                h("button",{onClick:()=>setBrowseIdx(isExp?null:idx),style:{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"7px 8px",borderRadius:6,border:"none",cursor:"pointer",textAlign:"left",background:isCurrent?"#ebe6d3":isExp?"#faf7ea":"transparent",borderLeft:isCurrent?"3px solid #b69764":"3px solid transparent"}},
-                  h("div",{style:{width:7,height:7,borderRadius:"50%",flexShrink:0,background:complete?"#b69764":partial?"#d4bc8f":"#d8d3bf"}}),
+                h("button",{onClick:()=>setBrowseIdx(isExp?null:idx),style:{display:"flex",alignItems:"center",gap:8,width:"100%",padding:"7px 8px",borderRadius:6,border:"none",cursor:"pointer",textAlign:"left",background:isCurrent?"#edece3":isExp?"#faf7ea":"transparent",borderLeft:isCurrent?"3px solid #b1a48b":"3px solid transparent"}},
+                  h("div",{style:{width:7,height:7,borderRadius:"50%",flexShrink:0,background:complete?"#b1a48b":partial?"#d4bc8f":"#d8d3bf"}}),
                   h("div",{style:{fontSize:13,fontFamily:"'Newsreader',serif",color:complete?"#9ea0a2":"#555658",fontWeight:isCurrent?700:400,textDecoration:complete?"line-through":"none",flex:1}},pair[0]+"  &  "+pair[1]),
-                  isCurrent&&h("span",{style:{fontSize:9,background:"#b69764",color:"#fff",padding:"2px 6px",borderRadius:4,fontWeight:700,fontFamily:"system-ui"}},"NEXT")
+                  isCurrent&&h("span",{style:{fontSize:9,background:"#b1a48b",color:"#fff",padding:"2px 6px",borderRadius:4,fontWeight:700,fontFamily:"system-ui"}},"NEXT")
                 ),
                 isExp&&h("div",{style:{padding:"4px 0 8px 18px"}},h(PairCard,{pairIdx:idx,isCurrent,state,toggle,onOpenReader:setReaderRef}))
               )
@@ -502,7 +502,7 @@ function App(){
     )
   }
 
-  const tab=(key,label)=>h("button",{key,onClick:()=>setView(key),style:{flex:1,padding:"10px 0",border:"none",borderRadius:0,background:"transparent",cursor:"pointer",color:view===key?"#b69764":"#9ea0a2",fontSize:14,fontWeight:view===key?700:500,fontFamily:"'Newsreader',serif",borderBottom:view===key?"2px solid #b69764":"2px solid transparent"}},label);
+  const tab=(key,label)=>h("button",{key,onClick:()=>setView(key),style:{flex:1,padding:"10px 0",border:"none",borderRadius:0,background:"transparent",cursor:"pointer",color:view===key?"#b1a48b":"#9ea0a2",fontSize:14,fontWeight:view===key?700:500,fontFamily:"'Newsreader',serif",borderBottom:view===key?"2px solid #b1a48b":"2px solid transparent"}},label);
 
   return h("div",{style:{padding:0}},
     // Header
@@ -516,8 +516,8 @@ function App(){
     ),
     // Progress
     h("div",{style:{padding:"16px 20px 0"}},
-      h("div",{style:{background:"#e2ddcb",borderRadius:100,height:6,overflow:"hidden"}},
-        h("div",{style:{width:pct+"%",height:"100%",background:"linear-gradient(90deg, #d4bc8f, #b69764)",borderRadius:100,transition:"width 0.5s ease"}})
+      h("div",{style:{background:"#e6e5db",borderRadius:100,height:6,overflow:"hidden"}},
+        h("div",{style:{width:pct+"%",height:"100%",background:"linear-gradient(90deg, #d4bc8f, #b1a48b)",borderRadius:100,transition:"width 0.5s ease"}})
       ),
       h("div",{style:{display:"flex",justifyContent:"space-between",marginTop:6,fontSize:11,color:"#9ea0a2"}},
         h("span",null,totalChecked+" of "+TOTAL+" readings"),h("span",null,pct+"%")
@@ -549,14 +549,14 @@ function App(){
           h("div",{style:{fontSize:48,marginBottom:16}},"🎉"),
           h("div",{style:{fontFamily:"'Newsreader',serif",fontSize:24,fontWeight:700,color:"#444547",marginBottom:8}},"Plan Complete!"),
           h("div",{style:{fontSize:14,color:"#707173",fontFamily:"'Newsreader',serif"}},"You've read through the entire M'Cheyne plan."),
-          h("button",{onClick:()=>{const s={...ds(),position:0};_saving.current=true;setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)},style:{marginTop:20,padding:"12px 24px",borderRadius:10,border:"none",background:"#b69764",color:"#fff",cursor:"pointer",fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600}},"Start Over")
+          h("button",{onClick:()=>{const s={...ds(),position:0};_saving.current=true;setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)},style:{marginTop:20,padding:"12px 24px",borderRadius:10,border:"none",background:"#b1a48b",color:"#fff",cursor:"pointer",fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600}},"Start Over")
         )
       ),
       view==="browse"&&h(BrowseView),
       view==="stats"&&h("div",{style:{display:"flex",flexDirection:"column",gap:16}},
         h("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
           [[totalChecked,"readings done","📖"],[TOTAL-totalChecked,"remaining","📋"],[stats.currentStreak,"day streak","🔥"],[stats.longestStreak,"best streak","⭐"]].map(([val,label,icon],i)=>
-            h("div",{key:i,style:{background:"#fffef9",borderRadius:14,padding:"18px 16px",border:"1px solid #e2ddcb",textAlign:"center"}},
+            h("div",{key:i,style:{background:"#fefdfb",borderRadius:14,padding:"18px 16px",border:"1px solid #e6e5db",textAlign:"center"}},
               h("div",{style:{fontSize:20,marginBottom:4}},icon),
               h("div",{style:{fontSize:28,fontFamily:"'Newsreader',serif",fontWeight:700,color:"#444547"}},typeof val==="number"?val.toLocaleString():val),
               h("div",{style:{fontSize:12,color:"#9ea0a2",fontFamily:"'Newsreader',serif"}},label)
@@ -564,33 +564,33 @@ function App(){
           )
         ),
         // Chart
-        h("div",{style:{background:"#fffef9",borderRadius:14,padding:"18px 16px",border:"1px solid #e2ddcb"}},
+        h("div",{style:{background:"#fefdfb",borderRadius:14,padding:"18px 16px",border:"1px solid #e6e5db"}},
           h("div",{style:{fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600,color:"#444547",marginBottom:12}},"Last 30 Days"),
           h("div",{style:{display:"flex",alignItems:"flex-end",gap:2,height:120,padding:"0 4px"}},
             chartData.map((d,i)=>h("div",{key:i,style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4}},
-              h("div",{style:{width:"100%",maxWidth:14,borderRadius:4,minHeight:3,height:d.readings>0?Math.min(d.readings/6*90,90)+"px":"3px",background:d.readings>=4?"#b69764":d.readings>=2?"#8d7349":d.readings>0?"#d4bc8f":"#d8d3bf"}}),
+              h("div",{style:{width:"100%",maxWidth:14,borderRadius:4,minHeight:3,height:d.readings>0?Math.min(d.readings/6*90,90)+"px":"3px",background:d.readings>=4?"#b1a48b":d.readings>=2?"#8d7349":d.readings>0?"#d4bc8f":"#d8d3bf"}}),
               i%5===0&&h("div",{style:{fontSize:8,color:"#9ea0a2",fontFamily:"system-ui",whiteSpace:"nowrap"}},d.label)
             ))
           ),
           h("div",{style:{display:"flex",justifyContent:"center",gap:16,marginTop:12}},
-            [["#b69764","4+"],["#8d7349","2–3"],["#d4bc8f","1"],["#d8d3bf","—"]].map(([c,l],i)=>
+            [["#b1a48b","4+"],["#8d7349","2–3"],["#d4bc8f","1"],["#d8d3bf","—"]].map(([c,l],i)=>
               h("div",{key:i,style:{display:"flex",alignItems:"center",gap:4}},h("div",{style:{width:10,height:10,borderRadius:2,background:c}}),h("span",{style:{fontSize:10,color:"#9ea0a2"}},l))
             )
           )
         ),
         // Heatmap
-        h("div",{style:{background:"#fffef9",borderRadius:14,padding:"18px 16px",border:"1px solid #e2ddcb"}},
+        h("div",{style:{background:"#fefdfb",borderRadius:14,padding:"18px 16px",border:"1px solid #e6e5db"}},
           h("div",{style:{fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600,color:"#444547",marginBottom:12}},"12 Week Heatmap"),
           h("div",{style:{display:"flex",gap:3,justifyContent:"center",flexWrap:"wrap"}},
-            Array.from({length:84},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(83-i));const s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");const v=state.log[s]||0;return h("div",{key:i,title:s+": "+v,style:{width:12,height:12,borderRadius:3,background:v>=4?"#b69764":v>=2?"#8d7349":v>0?"#d4bc8f":"#e2ddcb"}})})
+            Array.from({length:84},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(83-i));const s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");const v=state.log[s]||0;return h("div",{key:i,title:s+": "+v,style:{width:12,height:12,borderRadius:3,background:v>=4?"#b1a48b":v>=2?"#8d7349":v>0?"#d4bc8f":"#e6e5db"}})})
           ),
           h("div",{style:{textAlign:"center",marginTop:8,fontSize:10,color:"#9ea0a2"}},"Each square = 1 day · Darker = more readings")
         ),
         // Jump
-        h("div",{style:{background:"#fffef9",borderRadius:14,padding:"18px 16px",border:"1px solid #e2ddcb"}},
+        h("div",{style:{background:"#fefdfb",borderRadius:14,padding:"18px 16px",border:"1px solid #e6e5db"}},
           h("div",{style:{fontSize:14,fontFamily:"'Newsreader',serif",fontWeight:600,color:"#444547",marginBottom:8}},"Adjust Position"),
           h("div",{style:{fontSize:12,color:"#707173",marginBottom:12,fontFamily:"'Newsreader',serif"}},"Currently at pair "+(pos+1)+(pos<PAIRS?": "+gp(pos).join(" + "):" — Complete!")),
-          h("button",{onClick:()=>{const input=prompt("Jump to which pair? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){_saving.current=true;const s={...state,position:n-1};setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #d8d3bf",background:"transparent",cursor:"pointer",color:"#b69764",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Pair...")
+          h("button",{onClick:()=>{const input=prompt("Jump to which pair? (1–"+PAIRS+")\nCurrently at "+(pos+1)+": "+(pos<PAIRS?gp(pos).join(" + "):"Done"));if(input){const n=parseInt(input);if(n>=1&&n<=PAIRS){_saving.current=true;const s={...state,position:n-1};setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}}},style:{width:"100%",padding:10,borderRadius:8,border:"1px solid #d8d3bf",background:"transparent",cursor:"pointer",color:"#b1a48b",fontSize:13,fontFamily:"'Newsreader',serif"}},"Jump to Pair...")
         ),
         // Reset
         h("button",{onClick:()=>{if(confirm("Reset all reading data? This cannot be undone.")){_saving.current=true;const s=ds();setState(s);save(s);setTimeout(()=>{_saving.current=false},1000)}},style:{padding:12,borderRadius:10,border:"1px solid #d8d3bf",background:"transparent",cursor:"pointer",color:"#9ea0a2",fontSize:13,fontFamily:"'Newsreader',serif"}},"Reset All Data")
