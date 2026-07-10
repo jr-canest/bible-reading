@@ -171,13 +171,17 @@ function fetchESV(reference){
   });
 }
 // Chapter reader — uses passage/html for proper formatting, caches by reference in localStorage (Bible text is immutable)
-var CHAPTER_CACHE_PREFIX="esvChapter2:";
+var CHAPTER_CACHE_PREFIX="esvChapter3:";
+// Single-chapter books: the ESV API reads a bare trailing number as a VERSE (e.g. "Phlm 1" => Philemon v1),
+// so a plan entry like "Phlm 1" must be queried by book name alone to return the whole chapter.
+var SINGLE_CHAPTER_BOOKS={"Obad":"Obadiah","Phlm":"Philemon","2 John":"2 John","3 John":"3 John","Jude":"Jude"};
+function chapterQuery(reference){var m=reference.match(/^(.+?)\s+(\d+)$/);if(m&&SINGLE_CHAPTER_BOOKS[m[1]]&&m[2]==="1")return SINGLE_CHAPTER_BOOKS[m[1]];return reference;}
 function getCachedChapter(ref){try{var raw=localStorage.getItem(CHAPTER_CACHE_PREFIX+ref);if(!raw)return null;var p=JSON.parse(raw);return p&&p.html?p.html:null}catch(e){return null}}
 function setCachedChapter(ref,html){try{localStorage.setItem(CHAPTER_CACHE_PREFIX+ref,JSON.stringify({html:html,ts:Date.now()}))}catch(e){}}
 function fetchESVChapter(reference){
   var cached=getCachedChapter(reference);
   if(cached)return Promise.resolve(cached);
-  var q=encodeURIComponent(reference);
+  var q=encodeURIComponent(chapterQuery(reference));
   return fetch("https://api.esv.org/v3/passage/html/?q="+q+"&include-headings=true&include-verse-numbers=true&include-footnotes=false&include-audio-link=false&include-passage-references=false&include-short-copyright=true&include-first-verse-numbers=false&include-css-link=false",{
     headers:{"Authorization":"Token d8bb6319bd4e8e47a8b822242f1c55668fb537d0"}
   }).then(function(r){if(!r.ok)throw new Error("Could not load passage. Please try again.");return r.json()}).then(function(data){
